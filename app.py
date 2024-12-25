@@ -26,18 +26,20 @@ async def on_message(message):
         for attachment in message.attachments:
             print(attachment.filename) # Print check to see its printing all the attachments
 
+            # Get the image from the attachment URL
             response = requests.get(attachment.url)
-            # Generate a timestamped file name
-            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-            file_name = f"{timestamp}.png"
-            # Opens image and saves to "imgs" directory with custom timestamped file name
-            img = Image.open(BytesIO(response.content)) # NEED TO FIX THIS SO IT PROCESS MULTIPLE IMAGES TO IMGUR
-            # fix for line above
-            img_path = os.path.join("imgs", file_name)
+           
+            # Opens image and saves to "imgs" directory with file name
+            img = Image.open(BytesIO(response.content))
+            img_path = os.path.join("imgs", attachment.filename)
             img.save(img_path)
 
+            fileType = img_path.split('.')[-1]
+            print(fileType)
+
+            # Upload the image to imgur by calling the function from imageProcess.py
             client_id = os.getenv("IMGUR_CLIENT_ID")
-            response = upload_image_to_imgur(img_path, client_id, attachment.filename, username)
+            response = upload_image_to_imgur(img_path, client_id, username, fileType)
             print(response)
             
             # Send the link of the same attachment to the same channel where the user posted it in
@@ -49,5 +51,4 @@ async def on_message(message):
         # Delete the user's message
         await message.delete()
             
-
 bot.run(os.getenv("TOKEN"))
