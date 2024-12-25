@@ -6,7 +6,7 @@
     - Setup bot, and added feature for the bot to listen for any attachments and get the discord cdn which will be replaced. After getting the discord cdn it downloads the image to "imgs" directory. Did a little research with IMGUR API and my path for implementation using the API. Planning onto doing a little more research tomorrow and hopefully get some sort of implemenation started. Plan on setting up API account and using Postman to manage requests. Need to fix/add support for video files currently works only for images.
 
 - 12/24/2024 DAY 2
-    - Added connection between the imgur and discord. Added proper api call with client id to upload the users attachment (currently only have png, jpg, image files files working). Made changes to fix it only uploading the current images uploaded instead of all of the imgages in the imgs folder. Added auto delete feature and delete from imgs folder once file is synced to imgur. Need to fix the upload call with mulitple images and added support to gifs and videos. Still determining the format the bot gives back into the chat.
+    - Added connection between the imgur and discord. Added proper api call with client id to upload the users attachment (currently only have png, jpg, image files files working). Made changes to fix it only uploading the current images uploaded instead of all of the imgages in the imgs folder. Added auto delete feature and delete from imgs folder once file is synced to imgur. Need to add support to gifs and videos. Still determining the format the bot gives back into the chat.
 
 ## SOURCES
 https://apidocs.imgur.com/#intro
@@ -22,3 +22,5 @@ You can obtain your Client ID by registering an application on the Imgur website
 ## REQUIRMENTS
 - IMGUR API Client Key
 - Postman (Optional)
+
+![alt text](image.png)

@@ -9,16 +9,11 @@ from dotenv import load_dotenv
 from imageProcess import upload_image_to_imgur
 load_dotenv()
 
-bot = commands.Bot(command_prefix='!', intents=discord.Intents.all()) # MAY BE REMOVED ON RELEASE 
+bot = commands.Bot(command_prefix='!', intents=discord.Intents.all()) # command prefix isn't used in this code
 
 @bot.event 
 async def on_ready():
      print(f'We have logged in as {bot.user}')
-
-# @bot.command()
-# async def sync(ctx):
-#     await bot.tree.sync()
-#     await ctx.send("Synced!")
 
 @bot.event
 async def on_message(message):
@@ -36,7 +31,8 @@ async def on_message(message):
             timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
             file_name = f"{timestamp}.png"
             # Opens image and saves to "imgs" directory with custom timestamped file name
-            img = Image.open(BytesIO(response.content))
+            img = Image.open(BytesIO(response.content)) # NEED TO FIX THIS SO IT PROCESS MULTIPLE IMAGES TO IMGUR
+            # fix for line above
             img_path = os.path.join("imgs", file_name)
             img.save(img_path)
 
@@ -50,8 +46,8 @@ async def on_message(message):
             # Delete the image after uploading
             os.remove(img_path)
             
-            # Delete the user's message
-            await message.delete()
+        # Delete the user's message
+        await message.delete()
             
 
 bot.run(os.getenv("TOKEN"))
