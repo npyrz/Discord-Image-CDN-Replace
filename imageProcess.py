@@ -1,19 +1,16 @@
-# GIVEN CODE FROM THE IMGUR API SITE - NOT STARTED THIS FEATURE YET
-
 import requests
 
-url = "https://api.imgur.com/3/image"
-
-payload={'type': 'image',
-'title': 'Simple upload',
-'description': 'This is a simple image upload in Imgur'}
-files=[
-  ('image',('GHJQTpX.jpeg',open('C:\Users\noahp\Desktop\Code\Discord-Image-CDN-Replace\imgs','rb'),'image/jpeg'))
-]
-headers = {
-  'Authorization': 'Client-ID {{clientId}}'
-}
-
-response = requests.request("POST", url, headers=headers, data=payload, files=files)
-
-print(response.text)
+def upload_image_to_imgur(image_path, client_id, title, username):
+    url = "https://api.imgur.com/3/image"
+    payload = {
+        'type': 'image',
+        'title': title + ' uploaded by ' + username # Original filename and username to be shown on the site and discord
+    }
+    files = [
+        ('image', (image_path, open(image_path, 'rb'), 'image/jpeg'))
+    ]
+    headers = {
+        'Authorization': f'Client-ID {client_id}'
+    }
+    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+    return response.json()['data']['link']
