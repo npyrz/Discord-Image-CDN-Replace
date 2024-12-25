@@ -2,9 +2,6 @@ import discord
 from discord.ext import commands
 import os
 import requests
-from PIL import Image
-from io import BytesIO
-from datetime import datetime
 from dotenv import load_dotenv 
 from imageProcess import upload_image_to_imgur
 load_dotenv()
@@ -13,7 +10,7 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all()) # command 
 
 @bot.event 
 async def on_ready():
-     print(f'We have logged in as {bot.user}')
+     print(f'{bot.user} is online!')
 
 @bot.event
 async def on_message(message):
@@ -28,14 +25,17 @@ async def on_message(message):
 
             # Get the image from the attachment URL
             response = requests.get(attachment.url)
+            if attachment.filename.endswith(('.png', '.jpg', '.jpeg', '.gif', '.mp4', '.mkv', '.mov', '.avi')):
+                # Save the file to imgs folder
+                img_path = os.path.join("imgs", attachment.filename)
+                await attachment.save(img_path)
+            else:
+                await message.delete()
+                await message.channel.send("Invalid file type. Please upload an image or a video with the following extensions: .png, .jpg, .jpeg, .gif, .mp4, .mkv, .mov")
+                return
            
-            # Opens image and saves to "imgs" directory with file name
-            img = Image.open(BytesIO(response.content))
-            img_path = os.path.join("imgs", attachment.filename)
-            img.save(img_path)
-
+            # Get the file type of the image
             fileType = img_path.split('.')[-1]
-            print(fileType)
 
             # Upload the image to imgur by calling the function from imageProcess.py
             client_id = os.getenv("IMGUR_CLIENT_ID")
@@ -43,7 +43,26 @@ async def on_message(message):
             print(response)
             
             # Send the link of the same attachment to the same channel where the user posted it in
-            await message.channel.send(response)
+            if fileType in ['png', 'jpg', 'jpeg', 'gif']:
+                #await message.channel.send(response)
+                embed = discord.Embed(
+                title= attachment.filename,
+                url=response
+                )
+                embed.set_image(url=response)
+                embed.set_author(name=username, icon_url=message.author.display_avatar.url)
+                embed.timestamp = message.created_at
+                await message.channel.send(embed=embed)
+            elif fileType in ['mp4', 'mkv', 'mov', 'avi']:
+                embed = discord.Embed(
+                title= attachment.filename,
+                description = response,
+                url=response
+                )
+                embed.set_image(url=response)
+                embed.set_author(name=username, icon_url=message.author.display_avatar.url)
+                embed.timestamp = message.created_at
+                await message.channel.send(embed=embed)
             
             # Delete the image after uploading
             os.remove(img_path)

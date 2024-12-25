@@ -1,12 +1,9 @@
 # Discord-Image-CDN-Replace IN DEVELOPMENT
 - CDN Image Replaced with 3rd party image hosting automatically when user sets image in discord because discord image links only last 7 days
 
-## TIMELINE
-- 12/17/2024 DAY 1
-    - Setup bot, and added feature for the bot to listen for any attachments and get the discord cdn which will be replaced. After getting the discord cdn it downloads the image to "imgs" directory. Did a little research with IMGUR API and my path for implementation using the API. Planning onto doing a little more research tomorrow and hopefully get some sort of implemenation started. Plan on setting up API account and using Postman to manage requests. Need to fix/add support for video files currently works only for images.
-
-- 12/24/2024 DAY 2
-    - Added connection between the imgur and discord. Added proper api call with client id to upload the users attachment (currently only have png, jpg, image files files working). Made changes to fix it only uploading the current images uploaded instead of all of the imgages in the imgs folder. Added auto delete feature and delete from imgs folder once file is synced to imgur. Attempted to add support to videos and gifs, reframed a few parts of the code for this to work properly with synced file types etc to imgur. Need to look for a fix for the gif not properly displaying as a gif when viewing it in imgur, currently says its a gif and saves to discord as a gif pretty sure its a issue with BytesIO or Image. Also need to look into another library or replace for video to work on downloading onto os.
+## TODO
+    - MAYBE ADD FEATURE FOR ADMINS TO ENABLE A LOG CHANNEL TO VIEW IMAGES
+    - 3RD PARTY IDEA TO USE MACHINE LEARNING OR SOMETHING TO DELETE NFSW IMAGES FROM SERVERS
 
 ## SOURCES
 https://apidocs.imgur.com/#intro
@@ -22,5 +19,3 @@ You can obtain your Client ID by registering an application on the Imgur website
 ## REQUIRMENTS
 - IMGUR API Client Key
 - Postman (Optional)
-
-![alt text](image.png)
