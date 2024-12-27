@@ -26,9 +26,9 @@ async def on_message(message):
             # Get the image from the attachment URL
             response = requests.get(attachment.url)
             if attachment.filename.endswith(('.png', '.jpg', '.jpeg', '.gif', '.mp4', '.mkv', '.mov', '.avi')):
-                # Save the file to imgs folder
-                img_path = os.path.join("imgs", attachment.filename)
-                await attachment.save(img_path)
+                # Save the file to local storage
+                await attachment.save(attachment.filename)
+                img_path = attachment.filename
             else:
                 await message.delete()
                 await message.channel.send("Invalid file type. Please upload an image or a video with the following extensions: .png, .jpg, .jpeg, .gif, .mp4, .mkv, .mov")
@@ -36,6 +36,7 @@ async def on_message(message):
            
             # Get the file type of the image
             fileType = img_path.split('.')[-1]
+            print(fileType)
 
             # Upload the image to imgur by calling the function from imageProcess.py
             client_id = os.getenv("IMGUR_CLIENT_ID")
@@ -43,7 +44,7 @@ async def on_message(message):
             print(response)
             
             # Send the link of the same attachment to the same channel where the user posted it in
-            if fileType in ['png', 'jpg', 'jpeg', 'gif']:
+            if fileType in ['png', 'jpg', 'jpeg']:
                 #await message.channel.send(response)
                 embed = discord.Embed(
                 title= attachment.filename,
@@ -53,10 +54,10 @@ async def on_message(message):
                 embed.set_author(name=username, icon_url=message.author.display_avatar.url)
                 embed.timestamp = message.created_at
                 await message.channel.send(embed=embed)
-            elif fileType in ['mp4', 'mkv', 'mov', 'avi']:
+            elif fileType in ['gif', 'mp4', 'mkv', 'mov', 'avi']:
                 embed = discord.Embed(
                 title= attachment.filename,
-                description = response,
+                #description = f"[Click here to view the video.({response})",
                 url=response
                 )
                 embed.set_image(url=response)

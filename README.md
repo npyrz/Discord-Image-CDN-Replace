@@ -3,6 +3,7 @@
 
 ## TODO
     - MAYBE ADD FEATURE FOR ADMINS TO ENABLE A LOG CHANNEL TO VIEW IMAGES
+    - OPTIONALIZING THE WHOLE THING MAYBE ADMIN SET/USER SET
     - 3RD PARTY IDEA TO USE MACHINE LEARNING OR SOMETHING TO DELETE NFSW IMAGES FROM SERVERS
 
 ## SOURCES
@@ -18,4 +19,4 @@ You can obtain your Client ID by registering an application on the Imgur website
 
 ## REQUIRMENTS
 - IMGUR API Client Key
-- Postman (Optional)
+- Postman (Optional, nice to use to view all requests)
